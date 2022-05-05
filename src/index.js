@@ -1,3 +1,2 @@
+import './styles/main.scss'
 
-const sayHello = () => {console.log('Hello!')};
-sayHello();

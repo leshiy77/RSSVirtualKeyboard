@@ -44,7 +44,7 @@ module.exports = {
         rules: [
             { test: /\.(html)$/, use: ['html-loader']},
             {
-                test: /\.(s[ac]c)ss$/i,
+                test: /\.(s[ac]|c)ss$/i,
                 use: [
                     MiniCssExtractPlugin.loader,
                     'css-loader',
