@@ -69,6 +69,9 @@ body {
   -webkit-box-pack: center;
       -ms-flex-pack: center;
           justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
   height: 100%;
 }
 
@@ -81,12 +84,16 @@ body {
 
 .textarea {
   display: block;
-  max-width: 800px;
+  width: 800px;
   height: 200px;
   font-size: 20px;
   padding: 15px;
   margin: 10px;
   color: #90b1b3;
+  outline: none;
+  border: 4px solid #000;
+  border-radius: 10px;
+  resize: none;
 }
 
 .keyboard {
@@ -94,11 +101,55 @@ body {
   display: grid;
   -ms-grid-rows: (1fr)[5];
       grid-template-rows: repeat(5, 1fr);
-  max-width: 800px;
+  gap: 5px;
+  width: 800px;
   height: 400px;
   background-color: #90b1b3;
   border: 4px solid #000;
   border-radius: 10px;
   padding: 5px;
+}
+
+.keyboard-row {
+  display: -ms-grid;
+  display: grid;
+  width: 100%;
+}
+
+.keyboard-row:nth-child(1) {
+  -ms-grid-columns: 2fr (1fr)[11] 2fr;
+      grid-template-columns: 2fr repeat(11, 1fr) 2fr;
+  gap: 5px;
+}
+
+.keyboard-row:nth-child(2) {
+  -ms-grid-columns: 1.5fr (1fr)[12] 1.5fr;
+      grid-template-columns: 1.5fr repeat(12, 1fr) 1.5fr;
+  gap: 5px;
+}
+
+.keyboard-row:nth-child(3) {
+  -ms-grid-columns: 2fr (1fr)[12];
+      grid-template-columns: 2fr repeat(12, 1fr);
+  gap: 5px;
+}
+
+.keyboard-row:nth-child(4) {
+  -ms-grid-columns: 2fr (1fr)[11] 1.5fr;
+      grid-template-columns: 2fr repeat(11, 1fr) 1.5fr;
+  gap: 5px;
+}
+
+.keyboard-row:nth-child(5) {
+  -ms-grid-columns: (1fr)[2] 7fr (1fr)[5];
+      grid-template-columns: repeat(2, 1fr) 7fr repeat(5, 1fr);
+  gap: 5px;
+}
+
+.key-button {
+  width: 100%;
+  height: 100%;
+  border: 2px solid #000;
+  border-radius: 5px;
 }
 /*# sourceMappingURL=main.css.map */
