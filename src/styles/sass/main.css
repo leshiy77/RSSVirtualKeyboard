@@ -117,9 +117,13 @@ body {
 }
 
 .keyboard-row:nth-child(1) {
-  -ms-grid-columns: 2fr (1fr)[11] 2fr;
-      grid-template-columns: 2fr repeat(11, 1fr) 2fr;
+  -ms-grid-columns: (1fr)[13] 1.5fr;
+      grid-template-columns: repeat(13, 1fr) 1.5fr;
   gap: 5px;
+}
+
+.keyboard-row:nth-child(1) .key-button:last-child {
+  font-size: 14px;
 }
 
 .keyboard-row:nth-child(2) {
@@ -151,5 +155,13 @@ body {
   height: 100%;
   border: 2px solid #000;
   border-radius: 5px;
+  font-family: inherit;
+  font-size: 20px;
+}
+
+.key-button:active {
+  -webkit-transform: scale(0.95);
+          transform: scale(0.95);
+  background-color: #a6f3f7;
 }
 /*# sourceMappingURL=main.css.map */

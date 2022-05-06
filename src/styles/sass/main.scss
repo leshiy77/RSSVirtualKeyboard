@@ -38,8 +38,11 @@
     display: grid;
     width: 100%;
     &:nth-child(1) {
-        grid-template-columns: 2fr repeat(11, 1fr) 2fr;
+        grid-template-columns: repeat(13, 1fr) 1.5fr;
         gap: 5px;
+        .key-button:last-child {
+            font-size: 14px;
+        }
     }
     &:nth-child(2) {
         grid-template-columns: 1.5fr repeat(12, 1fr) 1.5fr;
@@ -64,4 +67,10 @@
     height: 100%;
     border: 2px solid #000;
     border-radius: 5px;
+    font-family: inherit;
+    font-size: 20px;
+    &:active {
+        transform: scale(0.95);
+        background-color: #a6f3f7;
+    }
 }

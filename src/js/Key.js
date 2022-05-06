@@ -1,11 +1,24 @@
-class Key {
+export default class Key {
 
-    constructor(type, func, name, lang = null) {
-        this.type = type;
-        this.func = func;
-        this.name = name;
-        this.lang = lang;
+    constructor() {
+        this.elem = document.createElement('button')
+        this.elem.classList.add('key-button')
+        this.elem.setAttribute('type', 'button' )
+        this.elem.value = '';
     }
 
+    setName(name, value) {
+        this.elem.classList.add(name);
+        this.elem.value = value;
+        this.elem.innerText = value;
+    }
 
+    getFunctionality(area) {
+        this.elem.addEventListener('mousedown', function() {
+            if (this.value === 'Backspace') {
+            } else {
+                area.value += this.value
+            }
+        })
+    }
 }
