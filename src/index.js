@@ -1,5 +1,5 @@
 import './styles/sass/main.css';
-import Key from './js/Key'
+import Key from './js/Key';
 
 const container = document.createElement('div');
 container.classList.add('container');
@@ -17,6 +17,10 @@ textArea.classList.add('textarea');
 container.appendChild(textArea);
 textArea.focus()
 
+window.addEventListener('click', function() {
+    textArea.focus()
+})
+
 const keyboard = document.createElement('div');
 keyboard.classList.add('keyboard');
 container.appendChild(keyboard);
@@ -29,22 +33,7 @@ for (let i=0; i<5; i++) {
     keyboard.appendChild(node)
 }
 
-const keyboardRowOne = [
-    {name: 'Backquote', value:'`', type: 'text', lang:'eng'},
-    {name: 'Digit1', value:'1', type: 'text', lang:null},
-    {name: 'Digit2', value:'2', type: 'text', lang:null},
-    {name: 'Digit3', value:'3', type: 'text', lang:null},
-    {name: 'Digit4', value:'4', type: 'text', lang:null},
-    {name: 'Digit5', value:'5', type: 'text', lang:null},
-    {name: 'Digit6', value:'6', type: 'text', lang:null},
-    {name: 'Digit7', value:'7', type: 'text', lang:null},
-    {name: 'Digit8', value:'8', type: 'text', lang:null},
-    {name: 'Digit9', value:'9', type: 'text', lang:null},
-    {name: 'Digit0', value:'0', type: 'text', lang:null},
-    {name: 'Minus', value:'-', type: 'text', lang:null},
-    {name: 'Equal', value:'=', type: 'text', lang:null},
-    {name: 'Backspace', value:'Backspace', type: 'func', lang:null}
-]
+import {keyboardRowOne, keyboardRowTwo, keyboardRowThree, keyboardRowFour, keyboardRowFive} from './js/library';
 
 const keyBtnArea = document.querySelectorAll('.keyboard-row');
 keyBtnArea.forEach(element => {
@@ -52,36 +41,93 @@ keyBtnArea.forEach(element => {
         case element.classList.contains('keyboard-row1'):
             for (let i =0; i<14;i++) {
                 let nodeBtn = new Key();
-                nodeBtn.setName(keyboardRowOne[i].name, keyboardRowOne[i].value);
-                nodeBtn.getFunctionality(textArea);
+                nodeBtn.setKey(keyboardRowOne[i]);
                 element.appendChild(nodeBtn.elem);
             }
         break;
         case element.classList.contains('keyboard-row2'):
             for (let i =0; i<14;i++) {
                 let nodeBtn = new Key();
+                nodeBtn.setKey(keyboardRowTwo[i]);
                 element.appendChild(nodeBtn.elem);
             }
         break;
         case element.classList.contains('keyboard-row3'):
             for (let i =0; i<13;i++) {
                 let nodeBtn = new Key();
+                nodeBtn.setKey(keyboardRowThree[i]);
                 element.appendChild(nodeBtn.elem);
             }
         break;
         case element.classList.contains('keyboard-row4'):
             for (let i =0; i<13;i++) {
                 let nodeBtn = new Key();
+                nodeBtn.setKey(keyboardRowFour[i]);
                 element.appendChild(nodeBtn.elem);
             }
         break;
         case element.classList.contains('keyboard-row5'):
-            for (let i =0; i<8;i++) {
+            for (let i =0; i<9;i++) {
                 let nodeBtn = new Key();
+                nodeBtn.setKey(keyboardRowFive[i]);
                 element.appendChild(nodeBtn.elem);
             }
         break;
     }
 });
+
+const keyBtn = document.querySelectorAll('.key-button');
+
+const shiftKey = (key) => {
+    if (key.classList.contains('active')){
+        keyBtn.forEach(elem => {
+            if (elem.getAttribute('shiftName') !== null) {
+                elem.innerHTML = elem.getAttribute('lowerName')
+            }
+        })
+    } else {
+        keyBtn.forEach(elem => {
+            if (elem.getAttribute('shiftName') !== null) {
+                elem.innerHTML = elem.getAttribute('shiftName')
+            }
+        })
+    }
+}
+
+window.addEventListener('keydown', function(event) {
+    for (let i =0; i < keyBtn.length; i++) {
+        if (event.code === keyBtn[i].getAttribute('keyName')) {
+            if (event.code === 'CapsLock') {
+                shiftKey(keyBtn[i])
+                keyBtn[i].classList.toggle('active');
+            } else if (event.code === 'ShiftLeft' || event.code === 'ShiftRight') {
+                keyBtn.forEach(elem => {
+                    if (elem.getAttribute('shiftName') !== null) {
+                        elem.innerHTML = elem.getAttribute('shiftName')
+                    }
+                })
+                keyBtn[i].classList.add('active');
+            } else {
+                keyBtn[i].classList.add('active');
+            }
+        }
+    }
+})
+
+window.addEventListener('keyup', function(event) {
+    for (let i =0; i < keyBtn.length; i++) {
+        if (event.code === keyBtn[i].getAttribute('keyName') && event.code !== 'CapsLock') {
+            if (event.code === 'ShiftLeft' || event.code === 'ShiftRight') {
+                keyBtn.forEach(elem => {
+                    if (elem.getAttribute('shiftName') !== null) {
+                        elem.innerHTML = elem.getAttribute('lowerName')
+                    }
+                })
+            }
+            keyBtn[i].classList.remove('active');
+        }
+    }
+})
+
 
 

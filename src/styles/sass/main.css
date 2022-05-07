@@ -145,8 +145,8 @@ body {
 }
 
 .keyboard-row:nth-child(5) {
-  -ms-grid-columns: (1fr)[2] 7fr (1fr)[5];
-      grid-template-columns: repeat(2, 1fr) 7fr repeat(5, 1fr);
+  -ms-grid-columns: (1fr)[3] 6fr (1fr)[5];
+      grid-template-columns: repeat(3, 1fr) 6fr repeat(5, 1fr);
   gap: 5px;
 }
 
@@ -163,5 +163,83 @@ body {
   -webkit-transform: scale(0.95);
           transform: scale(0.95);
   background-color: #a6f3f7;
+}
+
+.active {
+  -webkit-transform: scale(0.95);
+          transform: scale(0.95);
+  background-color: #a6f3f7;
+}
+
+.arrowup-key {
+  position: relative;
+}
+
+.arrowup-key::before {
+  content: ' ';
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  position: absolute;
+  z-index: 1000;
+  background: url(../../assets/svg/uparrow.svg);
+  background-position: center;
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+
+.arrowdown-key {
+  position: relative;
+}
+
+.arrowdown-key::before {
+  content: ' ';
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  position: absolute;
+  z-index: 1000;
+  background: url(../../assets/svg/arrowdown.svg);
+  background-position: center;
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+
+.arrowleft-key {
+  position: relative;
+}
+
+.arrowleft-key::before {
+  content: ' ';
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  position: absolute;
+  z-index: 1000;
+  background: url(../../assets/svg/arrowleft.svg);
+  background-position: center;
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+
+.arrowright-key {
+  position: relative;
+}
+
+.arrowright-key::before {
+  content: ' ';
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  position: absolute;
+  z-index: 1000;
+  background: url(../../assets/svg/arrowright.svg);
+  background-position: center;
+  background-size: contain;
+  background-repeat: no-repeat;
 }
 /*# sourceMappingURL=main.css.map */
