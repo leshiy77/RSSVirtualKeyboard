@@ -1,0 +1,47 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body,
+h1,
+h2,
+h3,
+h4,
+h5,
+p {
+    margin: 0px;
+}
+
+ul,
+ol {
+    list-style: none;
+    padding: 0px;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+img {
+    max-width: 100%;
+    display: block;
+}
+
+button {
+    border: none;
+    color: inherit;
+    cursor: pointer;
+}
+
+button,
+button:active, 
+button:focus { 
+    outline: none; 
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
