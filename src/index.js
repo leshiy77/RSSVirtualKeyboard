@@ -33,6 +33,10 @@ for (let i=0; i<5; i++) {
     keyboard.appendChild(node)
 }
 
+const infoTitle = document.createElement('h3');
+infoTitle.innerHTML = 'Клавиатура сделана для Windows. Переключение языка левый alt';
+container.appendChild(infoTitle);
+
 import {keyboardRowOne, keyboardRowTwo, keyboardRowThree, keyboardRowFour, keyboardRowFive} from './js/library';
 
 const keyBtnArea = document.querySelectorAll('.keyboard-row');
@@ -77,12 +81,47 @@ keyBtnArea.forEach(element => {
 });
 
 const keyBtn = document.querySelectorAll('.key-button');
+const capsLockKey = document.querySelector('.capslock-key');
+const altKey = document.querySelector('.altleft-key');
+const controlKey = document.querySelector('.controlleft-key');
 
 const shiftKey = (key) => {
     if (key.classList.contains('active')){
+        if (altKey.classList.contains('active-lang') && controlKey.classList.contains('active-lang')) {
+            keyBtn.forEach(elem => {
+                if (elem.getAttribute('ru') !== null) {
+                    elem.innerHTML = elem.getAttribute('ru')
+                }
+            })
+        } else {
+            keyBtn.forEach(elem => {
+                if (elem.getAttribute('shiftName') !== null) {
+                    elem.innerHTML = elem.getAttribute('lowerName')
+                }
+            })
+        }
+    } else {
+        if (altKey.classList.contains('active-lang') && controlKey.classList.contains('active-lang')) {
+            keyBtn.forEach(elem => {
+                if (elem.getAttribute('rus') !== null) {
+                    elem.innerHTML = elem.getAttribute('rus')
+                }
+            })
+        } else {
+            keyBtn.forEach(elem => {
+                if (elem.getAttribute('shiftName') !== null) {
+                    elem.innerHTML = elem.getAttribute('shiftName')
+                }
+            })
+        }
+    }
+}
+
+const shiftUp = () => {
+    if (altKey.classList.contains('active-lang') && controlKey.classList.contains('active-lang')) {
         keyBtn.forEach(elem => {
-            if (elem.getAttribute('shiftName') !== null) {
-                elem.innerHTML = elem.getAttribute('lowerName')
+            if (elem.getAttribute('rus') !== null) {
+                elem.innerHTML = elem.getAttribute('rus')
             }
         })
     } else {
@@ -91,43 +130,249 @@ const shiftKey = (key) => {
                 elem.innerHTML = elem.getAttribute('shiftName')
             }
         })
+    }   
+}
+
+const shiftDown = () => {
+    if (altKey.classList.contains('active-lang') && controlKey.classList.contains('active-lang')) {
+        keyBtn.forEach(elem => {
+            if (elem.getAttribute('ru') !== null) {
+                elem.innerHTML = elem.getAttribute('ru')
+            }
+        })
+    } else {
+        keyBtn.forEach(elem => {
+            if (elem.getAttribute('shiftName') !== null) {
+                elem.innerHTML = elem.getAttribute('lowerName')
+            }
+        })
     }
 }
 
+const changeLang = () => {
+    keyBtn.forEach(elem => {
+      if (controlKey.classList.contains('active-lang') && altKey.classList.contains('active-lang')) {
+        if (capsLockKey.classList.contains('active')) {
+            if (elem.getAttribute('shiftName') !== null) {
+                elem.innerHTML = elem.getAttribute('shiftName')
+            }
+        } else {
+            if (elem.getAttribute('lowerName') !== null) {
+                elem.innerHTML = elem.getAttribute('lowerName')
+            }
+        }
+      } else {
+        if (capsLockKey.classList.contains('active')) {
+            if (elem.getAttribute('rus') !== null) {
+                elem.innerHTML = elem.getAttribute('rus')
+            }
+        } else {
+            if (elem.getAttribute('ru') !== null) {
+                elem.innerHTML = elem.getAttribute('ru')
+            }
+        }
+      }
+    })
+}
+
+let textValue = textArea.value.split('')
+
 window.addEventListener('keydown', function(event) {
-    for (let i =0; i < keyBtn.length; i++) {
+    event.preventDefault() 
+    for (let i =0; i < keyBtn.length; i++) {    
         if (event.code === keyBtn[i].getAttribute('keyName')) {
             if (event.code === 'CapsLock') {
                 shiftKey(keyBtn[i])
                 keyBtn[i].classList.toggle('active');
             } else if (event.code === 'ShiftLeft' || event.code === 'ShiftRight') {
-                keyBtn.forEach(elem => {
-                    if (elem.getAttribute('shiftName') !== null) {
-                        elem.innerHTML = elem.getAttribute('shiftName')
-                    }
-                })
+                shiftUp();
                 keyBtn[i].classList.add('active');
             } else {
                 keyBtn[i].classList.add('active');
             }
         }
     }
+    keyBtn.forEach(elem => {
+        if (event.code === elem.getAttribute('keyName')) {
+            if (elem.getAttribute('type') === 'text') {
+                let position = textArea.selectionStart;
+                textValue.splice(textArea.selectionStart, 0, elem.textContent);
+                textArea.value = textValue.join('');
+                textArea.selectionEnd = position +1;
+            }
+            if (elem.getAttribute('type') === 'func') {
+                if (elem.getAttribute('keyName') === 'Space') {
+                    let position = textArea.selectionStart;
+                    textValue.splice(textArea.selectionStart, 0, ' ');
+                    textArea.value = textValue.join('');
+                    textArea.selectionEnd = position +1;
+                }
+                if (elem.getAttribute('keyName') === 'Tab') {
+                    let position = textArea.selectionStart;
+                    for (let i=0;i<4;i++) {
+                        textValue.splice(textArea.selectionStart, 0, ' ');
+                    }
+                    textArea.value = textValue.join('');
+                    textArea.selectionEnd = position +4;
+                }
+                if (elem.getAttribute('keyName') === 'Enter') {
+                    let position = textArea.selectionStart;
+                    textValue.splice(textArea.selectionStart, 0, '\n');
+                    textArea.value = textValue.join('');
+                    textArea.selectionEnd = position +1;
+                }
+                if (elem.getAttribute('keyName') === 'Backspace') {
+                    if (textArea.selectionStart !== 0) {
+                        let position = textArea.selectionStart;
+                        textValue.splice(textArea.selectionStart-1, 1);
+                        textArea.value = textValue.join('');
+                        textArea.selectionEnd = position - 1;
+                    }
+                }
+                if (elem.getAttribute('keyName') === 'Delete') {
+                    if (textArea.selectionStart !== textArea.length) {
+                        let position = textArea.selectionStart;
+                        textValue.splice(textArea.selectionStart, 1);
+                        textArea.value = textValue.join('');
+                        textArea.selectionEnd = position;
+                    }
+                }
+                if (elem.getAttribute('keyName') === 'ArrowUp') {
+                    let position = textArea.selectionStart;
+                    textArea.selectionEnd = textArea.value.length - position;
+            
+                }
+                if (elem.getAttribute('keyName') === 'ArrowDown') {
+                    let position = textArea.selectionStart;
+                    textArea.selectionStart = textArea.value.length + position;
+            
+                }
+                if (elem.getAttribute('keyName') === 'ArrowLeft') {
+                    if(textArea.selectionStart !== 0) {
+                        let position = textArea.selectionStart;
+                        textArea.selectionEnd = position - 1;
+                    }
+                }
+                if (elem.getAttribute('keyName') === 'ArrowRight') {
+                    if(textArea.selectionStart !== textArea.value.length) {
+                        let position = textArea.selectionStart;
+                        textArea.selectionStart = position + 1;
+                    }
+                }
+                if (elem.getAttribute('keyName') === 'AltLeft') {
+                    changeLang();
+                    altKey.classList.toggle('active-lang')
+                    controlKey.classList.toggle('active-lang')
+                }
+            }
+        }
+    })
 })
 
 window.addEventListener('keyup', function(event) {
+    event.preventDefault()
     for (let i =0; i < keyBtn.length; i++) {
         if (event.code === keyBtn[i].getAttribute('keyName') && event.code !== 'CapsLock') {
             if (event.code === 'ShiftLeft' || event.code === 'ShiftRight') {
-                keyBtn.forEach(elem => {
-                    if (elem.getAttribute('shiftName') !== null) {
-                        elem.innerHTML = elem.getAttribute('lowerName')
-                    }
-                })
+                shiftDown();
             }
             keyBtn[i].classList.remove('active');
         }
     }
 })
 
+keyBtn.forEach(elem => {
+    elem.addEventListener('mousedown', function(event) {
+        if (event.which === 1) {
+            if (elem.getAttribute('type') === 'text') {
+                let position = textArea.selectionStart;
+                textValue.splice(textArea.selectionStart, 0, elem.textContent);
+                textArea.value = textValue.join('');
+                textArea.selectionEnd = position +1;
+            }
+            if (elem.getAttribute('type') === 'func') {
+                if (elem.getAttribute('keyName') === 'Space') {
+                    let position = textArea.selectionStart;
+                    textValue.splice(textArea.selectionStart, 0, ' ');
+                    textArea.value = textValue.join('');
+                    textArea.selectionEnd = position +1;
+                }
+                  if (elem.getAttribute('keyName') === 'Tab') {
+                    let position = textArea.selectionStart;
+                    for (let i=0;i<4;i++) {
+                        textValue.splice(textArea.selectionStart, 0, ' ');
+                    }
+                    textArea.value = textValue.join('');
+                    textArea.selectionEnd = position +4;
+                }
+                if (elem.getAttribute('keyName') === 'Enter') {
+                    let position = textArea.selectionStart;
+                    textValue.splice(textArea.selectionStart, 0, '\n');
+                    textArea.value = textValue.join('');
+                    textArea.selectionEnd = position +1;
+                }
+                if (elem.getAttribute('keyName') === 'Backspace') {
+                    if (textArea.selectionStart !== 0) {
+                        let position = textArea.selectionStart;
+                        textValue.splice(textArea.selectionStart-1, 1).join('');
+                        textArea.value = textValue.join('');
+                        textArea.selectionEnd = position - 1;
+                    }
+                }
+                if (elem.getAttribute('keyName') === 'Delete') {
+                    if (textArea.selectionStart !== textArea.length) {
+                        let position = textArea.selectionStart;
+                        textValue.splice(textArea.selectionStart, 1).join('');
+                        textArea.value = textValue.join('');
+                        textArea.selectionEnd = position;
+                    }
+                }
+                if (elem.getAttribute('keyName') === 'ArrowUp') {
+                    let position = textArea.selectionStart;
+                    textArea.selectionEnd = textArea.value.length - position;
+            
+                }
+                if (elem.getAttribute('keyName') === 'ArrowDown') {
+                    let position = textArea.selectionStart;
+                    textArea.selectionStart = textArea.value.length + position;
+            
+                }
+                if (elem.getAttribute('keyName') === 'ArrowLeft') {
+                    if(textArea.selectionStart !== 0) {
+                        let position = textArea.selectionStart;
+                        textArea.selectionEnd = position - 1;
+                    }
+                }
+                if (elem.getAttribute('keyName') === 'ArrowRight') {
+                    if(textArea.selectionStart !== textArea.value.length) {
+                        let position = textArea.selectionStart;
+                        textArea.selectionStart = position + 1;
+                    }
+                }
+                if (elem.getAttribute('keyName') === 'CapsLock') {
+                    shiftKey(elem)
+                    elem.classList.toggle('active');
+                }
+                if (elem.getAttribute('keyName') === 'ShiftLeft' || elem.getAttribute('keyName') === 'ShiftRight') {
+                    shiftUp()
+                }
+                if (elem.getAttribute('keyName') === 'AltLeft') {
+                    changeLang();
+                    altKey.classList.toggle('active-lang')
+                    controlKey.classList.toggle('active-lang')
+                }
+            }
+        }
+    })
+})
 
+keyBtn.forEach(elem => {
+    elem.addEventListener('mouseup', function(event) {
+        if (event.which === 1) {
+            if (elem.getAttribute('keyName') === 'ShiftLeft' || elem.getAttribute('keyName') === 'ShiftRight') {
+                shiftDown()
+            }
+        }
+    })
+})
 
